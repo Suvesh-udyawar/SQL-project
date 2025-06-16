@@ -1,3 +1,3 @@
 # SQL-project
-This is my repo for SQL projects
+This is my repo for SQL projects.
 Author - Suvesh Udyawar
