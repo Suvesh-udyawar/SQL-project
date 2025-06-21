@@ -2,3 +2,11 @@
 This is my repo for tracking the various commands being used in SQL
 <br>
 Author - Suvesh Udyawar
+
+Create a new table called persons in DB
+CREATE TABLE persons (
+id INT PRIMARY KEY,
+person_name VARCHAR(50) NOT NULL,
+birth_date DATE,
+phone VARCHAR(50) NOT NULL
+)
