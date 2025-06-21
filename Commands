@@ -3,7 +3,7 @@ This is my repo for tracking the various commands being used in SQL
 <br>
 Author - Suvesh Udyawar
 
-[DDL Commands - CREATE, ALTER and DROP]
+[Data definition language DDL Commands - CREATE, ALTER and DROP]
 CREATE - To create a new table or schema
 -- Create a new table called persons in DB
 CREATE TABLE persons (
@@ -22,8 +22,35 @@ ADD email VARCHAR(50) NOT NULL
 ALTER TABLE persons
 DROP COLUMN phone
 
-DROP - To delete objects from the database such as tables, database, views. All data and structure associated with ti will be permanently removed.
+DROP - To delete objects from the database such as tables, database, views. All data and structure associated with it will be permanently removed.
 -- Delete the table persons from the database
 DROP TABLE persons
+
+[Data manipulation language DML Commands - INSERT, UPDATE and DELETE]
+INSERT - To insert data into a table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
