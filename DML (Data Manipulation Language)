@@ -1,0 +1,74 @@
+INSERT INTO customers (id, first_name, country, score)
+VALUES 
+(6, 'Anna', 'USA', NULL);
+
+INSERT INTO customers (id, first_name, country, score)
+VALUES 
+(7, 'Sam', NULL, 100);
+
+INSERT INTO customers (id, first_name, country, score)
+VALUES 
+(8, 'USA', 'Max', NULL),
+(9, 'Andreas', 'Germany', 100);
+
+INSERT INTO customers (id, first_name)
+VALUES 
+(10, 'Sahra');
+
+SELECT *
+FROM customers;
+
+
+--Copy data from 'customers' table into 'persons'
+CREATE TABLE persons(
+	id INT NOT NULL PRIMARY KEY,
+	person_name VARCHAR(50) NOT NULL,
+	birth_date DATE,
+	phone VARCHAR(15) NOT NULL
+);
+
+INSERT INTO persons (id, person_name, birth_date, phone)
+SELECT
+	id, 
+	first_name,
+	NULL as birth_date,
+	'Unknown' as phone
+FROM customers;
+
+SELECT *
+FROM persons;
+
+-- Cbange the score of customer with ID 6 into 0
+SELECT *
+FROM customers;
+
+UPDATE customers
+SET score = 0
+WHERE id =6;
+
+-- Change the score of the customer with ID 10 to 0 and update the country to UK
+Update customers
+SET 
+	score = 0,
+	country = 'UK'
+WHERE id = 10;
+
+UPDATE customers
+SET score = NULL
+WHERE id =9; 
+
+-- Update all customers with a NUll Score by setting their score to 0
+UPDATE customers
+SET score = 0
+WHERE score IS NULL;
+
+-- Delere all customers with and ID greater than 5
+DELETE FROM customers
+WHERE id >5;
+
+SELECT *
+FROM customers
+WHERE id >5;
+
+-- Delete all data from persons table
+TRUNCATE TABLE persons;
