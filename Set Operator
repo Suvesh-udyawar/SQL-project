@@ -1,0 +1,100 @@
+--RULES FOR SET OPERATOR
+-- SET Operator can be used almost in all clause WHERE | JOIN | GROUP BY | HAVING
+-- ORDER BY is allowed only once at the end of query
+-- The number of columns in each query must be the same
+-- Data types of columns in each query must be compatible
+-- The order of the columns in each query must be the same
+-- The column names in the result set are determined by the column name specified in the first querty
+
+SELECT 
+	firstname,
+	lastname
+FROM customers
+UNION
+SELECT 
+	firstname,
+	lastname
+FROM employees;
+
+--UNION (Returns all distinct rows from both queries / Removes duplicates from the result)
+-- Combine the data from employees and customers into one table
+SELECT 
+	firstname,
+	lastname
+FROM customers
+UNION
+SELECT 
+	firstname,
+	lastname
+FROM employees;
+
+-- UNION ALL (Returns all rows from both queries, including duplicates)
+-- Combine the data from employees and customers into one table including duplicates
+SELECT 
+	firstname,
+	lastname
+FROM customers
+UNION ALL
+SELECT 
+	firstname,
+	lastname
+FROM employees;
+
+--EXCEPT (Returns all distinct rows from the first query that are not found in second query)
+-- Find employees who are not customers at the same time
+SELECT 
+	firstname,
+	lastname
+FROM employees
+EXCEPT
+SELECT 
+	firstname,
+	lastname
+FROM customers;
+
+-- INTERSECT (Returns only the rows that are common in both queries)
+-- Find the employees who are also customers
+SELECT 
+	firstname,
+	lastname
+FROM employees
+INTERSECT
+SELECT 
+	firstname,
+	lastname
+FROM customers;
+
+/* Orders are stored in separate tables (Orders and OrdersArchive) 
+Combine the data into one report without duplicates */
+SELECT 
+	'Orders' As SourceTable,
+	orderid, 
+	productid, 
+	customerid, 
+	salespersonid, 
+	orderdate, 
+	shipdate, 
+	orderstatus, 
+	shipaddress, 
+	billaddress, 
+	quantity, 
+	sales, 
+	creationtime
+FROM orders
+UNION
+SELECT 
+	'OrdersArchive' AS SourceTable,
+	orderid, 
+	productid, 
+	customerid, 
+	salespersonid, 
+	orderdate, 
+	shipdate, 
+	orderstatus, 
+	shipaddress, 
+	billaddress, 
+	quantity, 
+	sales, 
+	creationtime
+FROM orders_archive
+ORDER BY orderid;
