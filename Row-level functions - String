@@ -1,0 +1,75 @@
+-- CONCAT (Combines multiple strings into one)
+-- UPPER (Converts all characters to uppercase)
+-- LOWER (Converts all characters to lowercase)
+-- TRIM (Removes leading and trailing spaces)
+-- REPLACE (Replaces specific character with a new character)
+-- LENGTH (Counts how many characters)
+-- LEFT (Extracts specific number of characters from the start)
+-- RIGHT (Extracts specific number of characters from the end)
+-- SUBSTRING (Extracts a part of a string at a specified postion)
+
+-- Show a list of customers first name together with their country in one column
+SELECT 
+	first_name, 
+	country,
+	CONCAT(first_name, '_', country) AS name_country
+FROM customers;
+
+-- Convert the first name to lowercase
+SELECT 
+	first_name,
+	LOWER(first_name) AS lower_name
+FROM customers;
+
+-- Transform the first name of the customers to uppercase.
+SELECT 
+	first_name,
+	UPPER(first_name) AS upper_name
+FROM customers;
+
+-- Find customers whose first name contains leading or trailing spaces
+-- Solution 1
+SELECT 
+	first_name,
+	LENGTH(first_name) AS len_name,
+	LENGTH(TRIM(first_name)) AS trim_len_name,
+	LENGTH(first_name) - LENGTH(TRIM(first_name)) AS flag
+FROM customers;
+
+-- Solution 2
+SELECT
+	first_name
+FROM customers
+WHERE first_name != TRIM(first_name);
+
+-- Remove '-' from a phone number
+SELECT '123-456-7890' AS phone,
+REPLACE ('123-456-7890', '-', '/') AS clean_phone;
+
+-- Replace file extension from .txt to .csv
+SELECT 'report.txt' AS old_filename,
+REPLACE ('report.txt', '.txt', '.csv') AS new_filename;
+
+-- Calculate the kength of each customers first name
+SELECT 
+	first_name,
+	LENGTH(first_name) AS len_name
+FROM customers;
+
+-- Retrieve the first two characters of each first name
+SELECT 
+	first_name,
+	LEFT(TRIM(first_name),2) AS first_2_chars
+FROM customers;
+
+-- Retrieve the last two characters of each first name
+SELECT 
+	first_name,
+	RIGHT(first_name,2) AS last_2_chars
+FROM customers;
+
+-- Retrieve a list of customers first names removing the first character
+SELECT 
+	first_name,
+	SUBSTRING(TRIM(first_name),2,LENGTH(first_name)) as substr_name
+FROM customers;
