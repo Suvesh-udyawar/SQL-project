@@ -1,0 +1,8 @@
+SELECT 3.982,
+ROUND (3.982, 2) AS round_2,
+ROUND (3.982, 1) AS round_1,
+ROUND (3.982, 0) AS round_0;
+
+SELECT -10,
+ABS (-10) AS absolute_negative,
+ABS (10) AS absolute_positive;
