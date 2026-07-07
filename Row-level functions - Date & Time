@@ -1,0 +1,22 @@
+--Ways of getting date and time in a query 
+-- Date and time can be gotten through a column present in the table
+-- Date and time can be hardcoded in the query
+-- The current date and time can be retrieved using the CURRENT_DATE, CURRENT_TIME or CURRENT_TIMESTAMP query.
+
+SELECT
+	orderid,
+	creationtime,
+	'2025-08-20' AS hardcoded,
+	CURRENT_TIMESTAMP AS Today
+FROM orders;
+
+--Extract the year, month and date from the column creationtime.
+SELECT
+	orderid,
+	creationtime,
+	EXTRACT(YEAR FROM creationtime) AS year_date,
+	EXTRACT(MONTH FROM creationtime) AS month_date,
+	EXTRACT(DAY FROM creationtime) AS day_date
+FROM orders;
+
+-- Extract 
