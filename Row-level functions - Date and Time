@@ -119,6 +119,7 @@ SELECT
 	|| ' Q' || TO_CHAR(creationtime, 'Q YYYY hh:mm:ss AM') AS CustomFormat
 FROM orders;
 
+-- Extract the sales by month from the orders table
 SELECT 
 	TO_CHAR(orderdate, 'Mon yy') as orderdate,
 	COUNT(*)
