@@ -10,6 +10,7 @@ SELECT
 	CURRENT_TIMESTAMP AS Today
 FROM orders;
 
+-- EXTRACT (To retrieve a part out of the timestamp eg. day, mnonth, year, quarter, decade,etc)
 -- How to get the day part out of a timestamp.
 -- Retrieve the day, month and year from the column 'creation time'
 SELECT 
