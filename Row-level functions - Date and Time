@@ -127,3 +127,10 @@ SELECT
 FROM orders
 GROUP BY TO_CHAR(orderdate, 'Mon yy')
 
+-- CAST(Converts a date and time value to a different data type and formats the value)
+SELECT 
+	CAST('123' AS INT) AS String_to_int,
+	CAST('2020-12-11' AS DATE) AS String_to_date,
+	creationtime,
+	CAST(creationtime AS DATE) AS datetime_to_date
+FROM orders;
