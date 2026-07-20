@@ -134,3 +134,12 @@ SELECT
 	creationtime,
 	CAST(creationtime AS DATE) AS datetime_to_date
 FROM orders;
+
+--Column_name +/- INTERVAL 'no of day/month/year' ( Adds or subtracts a specific time interval to/from a date)
+
+SELECT
+	orderid,
+	orderdate,
+	orderdate + INTERVAL '2 years' AS twoyrslater,
+	orderdate - INTERVAL '2 years' AS twoyrsprior
+FROM orders;
