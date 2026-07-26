@@ -166,3 +166,38 @@ SELECT
 	orderdate + INTERVAL '2 years' AS twoyrslater,
 	orderdate - INTERVAL '2 years' AS twoyrsprior
 FROM orders;
+
+--Column_name +/- INTERVAL 'no of day/month/year' ( Adds or subtracts a specific time interval to/from a date)
+
+SELECT
+	orderid,
+	orderdate,
+	orderdate + INTERVAL '2 years' AS twoyrslater,
+	orderdate - INTERVAL '2 years' AS twoyrsprior,
+	orderdate + INTERVAL '3 months' AS threemonthslater,
+	orderdate - INTERVAL '10 days' AS tendaysprior
+FROM orders;
+
+-- EXTRACT(year/month/day FROM (column1 - column 2)) (Find the difference between 2 dates)
+--Calculate the age of employees
+SELECT 
+	employeeid,
+	birthdate,
+	EXTRACT(YEAR FROM AGE(birthdate)) AS age
+FROM employees;
+
+-- Find the average shipping duration in days for each month
+SELECT
+	EXTRACT(MONTH FROM orderdate),
+	ROUND(AVG(shipdate - orderdate),0) AS AVGshippingduration 
+FROM orders
+GROUP BY EXTRACT(MONTH FROM orderdate)
+ORDER BY EXTRACT(MONTH FROM orderdate);
+
+-- Find the number of days between each order and the previous order
+SELECT 
+	orderid,
+	orderdate AS currentorderdate,
+	LAG(orderdate) OVER (ORDER BY orderdate) AS previousorderdate,
+	orderdate - LAG(orderdate) OVER (ORDER BY orderdate) As diff
+FROM orders;
