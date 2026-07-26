@@ -20,3 +20,149 @@ SELECT
 FROM orders;
 
 -- Extract 
+
+--Ways of getting date and time in a query 
+-- Date and time can be gotten through dates which are stored inside the database.
+-- Date and time can be hardcoded in the query
+-- The current date and time when the query was executed can be retrieved by a query
+
+SELECT
+	orderid,
+	creationtime,
+	'2025-08-20' AS HardCoded,
+	CURRENT_TIMESTAMP AS Today
+FROM orders;
+
+-- EXTRACT (To retrieve a part out of the timestamp eg. day, mnonth, year, quarter, decade,etc)
+-- How to get the day part out of a timestamp.
+-- Retrieve the day, month and year from the column 'creation time'
+SELECT 
+	creationtime,
+	EXTRACT (DAY FROM creationtime) AS Day_daypart,
+	EXTRACT (MONTH FROM creationtime) AS Month_daypart,
+	EXTRACT (YEAR FROM creationtime) AS Year_daypart
+FROM orders;
+
+-- Retrieve the hour, quarter, weekday, century, decade
+SELECT 
+	creationtime,
+	EXTRACT (HOUR FROM creationtime) AS Hour_daypart,
+	EXTRACT (QUARTER FROM creationtime) AS Quarter_daypart,
+	EXTRACT (WEEK FROM creationtime) AS Week_daypart,
+	EXTRACT (CENTURY FROM creationtime) AS Century_daypart,
+	EXTRACT (DECADE FROM creationtime) AS Decade_daypart
+FROM orders;
+
+-- TO_CHAR (column name, 'datepart') helps to get the name of the datepart selected
+-- Extract the name of the datepart from 'creationtime'
+SELECT 
+	creationtime,
+	TO_CHAR (creationtime, 'month') AS month_name,
+	TO_CHAR (creationtime, 'day') AS day_name
+FROM orders;
+
+-- Date Trunc (Truncate the date to a specific part)
+-- Truncate the timestamp to month, date, hour, minute and seconds level
+SELECT 
+	creationtime,
+	DATE_TRUNC('minute', creationtime) AS minute_trunc,
+	DATE_TRUNC('hour', creationtime) AS hour_trunc,
+	DATE_TRUNC('day', creationtime) AS day_trunc,
+	DATE_TRUNC('month', creationtime) AS month_trunc,
+	DATE_TRUNC('year', creationtime) AS year_trunc
+FROM orders;
+
+-- Find the number of orders created per month
+SELECT 
+	DATE_TRUNC ('month', creationtime),
+	COUNT (*) AS order_per_month
+FROM ORDERS
+GROUP BY DATE_TRUNC ('month', creationtime);
+
+--EOMONTH (Returns the last day of the month)
+-- Return the last day of the month for creationtime 
+SELECT
+	creationtime,
+	CAST((DATE_TRUNC('month', creationtime)+ interval '1 month' - interval '1 day') AS DATE) AS EndOfMonth
+FROM orders;
+
+--CAST (To convert value of one data type to another)
+-- Return the first day of the month for creationtime 
+SELECT 
+	creationtime,
+	CAST(DATE_TRUNC('month', creationtime) AS DATE) AS StartOfMonth
+FROM orders;
+
+-- How many orders were placed each year?
+SELECT 
+	EXTRACT(YEAR FROM orderdate),
+	COUNT (*) AS no_of_orders
+FROM orders
+GROUP BY EXTRACT(YEAR FROM orderdate);
+
+-- How many orders were placed each month?
+SELECT 
+	TO_CHAR (orderdate, 'month'),
+	COUNT (*) AS no_of_orders
+FROM orders
+GROUP BY 
+TO_CHAR (orderdate, 'month')
+ORDER BY TO_CHAR (orderdate, 'month');
+
+-- Show all orders that were placed during the month of Feb
+SELECT *
+FROM orders
+WHERE EXTRACT(MONTH from orderdate) = 2;
+
+-- Filtering data using an integer is faster than using a String
+/* Which part - Day / Month - Numeric - EXTRACT(DAY or MONTH FROM columnname)
+							  Full Name - TO_CHAR(columnname, 'DAY or MONTH')
+				Year -  EXTRACT(YEAR FROM columnname)
+				Other parts (quarter, decade) - EXTRACT(QUARTER or DECADE FROM columnname) */
+
+-- Formatting (Changing the format of the value from one to another)
+-- Casting (Changing the data type from one to another)
+
+SELECT 
+	creationtime,
+	TO_CHAR (creationtime, 'MM-dd-yyyy') AS US_format,
+	TO_CHAR (creationtime, 'dd-MM-yyyy') AS EURO_format,
+	TO_CHAR (creationtime, 'dd') AS dd,
+	TO_CHAR (creationtime, 'dy') AS shortform,
+	TO_CHAR (creationtime, 'day') AS longform,
+	TO_CHAR (creationtime, 'mm') AS mm,
+	TO_CHAR (creationtime, 'mon') AS shortform,
+	TO_CHAR (creationtime, 'month') AS shortform
+FROM orders;
+
+--Show creation time using the following format - Day Wed Jan Q1 2025 12:34:56 PM
+SELECT 
+	orderid,
+	creationtime,
+	'Day ' || TO_CHAR(creationtime, 'Dy Mon') 
+	|| ' Q' || TO_CHAR(creationtime, 'Q YYYY hh:mm:ss AM') AS CustomFormat
+FROM orders;
+
+-- Extract the sales by month from the orders table
+SELECT 
+	TO_CHAR(orderdate, 'Mon yy') as orderdate,
+	COUNT(*)
+FROM orders
+GROUP BY TO_CHAR(orderdate, 'Mon yy')
+
+-- CAST(Converts a date and time value to a different data type and formats the value)
+SELECT 
+	CAST('123' AS INT) AS String_to_int,
+	CAST('2020-12-11' AS DATE) AS String_to_date,
+	creationtime,
+	CAST(creationtime AS DATE) AS datetime_to_date
+FROM orders;
+
+--Column_name +/- INTERVAL 'no of day/month/year' ( Adds or subtracts a specific time interval to/from a date)
+
+SELECT
+	orderid,
+	orderdate,
+	orderdate + INTERVAL '2 years' AS twoyrslater,
+	orderdate - INTERVAL '2 years' AS twoyrsprior
+FROM orders;
