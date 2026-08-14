@@ -1,0 +1,29 @@
+-- What is Null? (Null means nothing, unknown/ Null is not equal to anything)
+-- ISNULL ( Replaces 'NULL' with a specified value) (Does not work in postgres, Always use Coalesce)
+-- COALSCE (Returns the first non-null value from a list)
+ 
+-- Find the average scores of the customers
+SELECT 
+	customerid,
+	score,
+	COALESCE(score,0) AS score2,
+	AVG(score) OVER () AS avgscore,
+	AVG(COALESCE(score,0)) OVER () AS avgscore2
+FROM customers;
+
+/* Display the full name of the customers in a single field by merging their first and last names and 
+add 10 bonus points to each customers core  */
+
+SELECT 
+	customerid,
+	firstname,
+	lastname,
+	COALESCE (lastname,'') AS lastname2,
+	firstname || ' ' || lastname AS fullname,
+	firstname || ' ' || COALESCE (lastname,'') AS fullname2,
+	score,
+	score + 10 AS newscore,
+	COALESCE(score,0) + 10 AS newscore2
+FROM customers;
+
+7.21.14
