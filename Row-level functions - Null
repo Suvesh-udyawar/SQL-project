@@ -67,6 +67,8 @@ LEFT JOIN orders AS o
 ON c.customerid = o.customerid
 WHERE o.customerid IS NULL;
 
+7.55.23
+
 -- NULL (Means Nothing, Unknown)
 -- Empty String (String value has 0 characters)
 -- Blank space (String value has one or more space characters)
