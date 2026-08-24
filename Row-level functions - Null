@@ -26,4 +26,47 @@ SELECT
 	COALESCE(score,0) + 10 AS newscore2
 FROM customers;
 
-7.21.14
+-- Sort the customers from lowest to highest scores with NULLs appearing last
+SELECT 
+	customerid,
+	score,
+	CASE WHEN score IS NULL THEN 1 ELSE 0 END AS flag
+FROM customers
+ORDER BY CASE WHEN score IS NULL THEN 1 ELSE 0 END, score;
+
+-- NULLIF (Compares 2 expressions and returns : Null if they are equal and First value if they are not equal)
+-- Useful when getting and error: Division by zero
+
+-- Find the sales price for each order by dividing the sales by the quantity
+SELECT 
+	orderid,
+	sales,
+	quantity,
+	sales/ NULLIF(quantity, 0) AS price
+FROM orders;
+
+-- IS NULL (Returns TRUE if the value is NULL, otherwise it returns FALSE)
+-- IS NOT NULL (Returns TRUE if the value is not NULL, otherwise it returns FALSE)
+
+-- Identify the customers who have no scores
+SELECT *
+FROM customers
+WHERE score IS NULL;
+
+-- Identify the customers who have scores
+SELECT *
+FROM customers
+WHERE score IS NOT NULL;
+
+-- Show the list of details for all customers who have not placed any orders
+SELECT 
+	c.*,
+	o.orderid
+FROM customers AS c
+LEFT JOIN orders AS o
+ON c.customerid = o.customerid
+WHERE o.customerid IS NULL;
+
+-- NULL (Means Nothing, Unknown)
+-- Empty String (String value has 0 characters)
+-- Blank space (String value has one or more space characters)
