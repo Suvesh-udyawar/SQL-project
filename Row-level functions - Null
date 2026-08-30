@@ -72,3 +72,22 @@ WHERE o.customerid IS NULL;
 -- NULL (Means Nothing, Unknown)
 -- Empty String (String value has 0 characters)
 -- Blank space (String value has one or more space characters)
+
+/*Data Policy - Set of rules that defines how the data should be handled.
+1. Only use NULLs and empty strings but avoid using blank spaces. (TRIM function)
+2. Only use NULLs and avoid using empty strings and blank spaces. (NULL IF)
+3. Use the default value 'unknown' and avoid using NULLs, empty string and blank spaces. (IS NULL or COALESCE)*/
+
+WITH orders AS (
+SELECT 1 id, 'A' Category UNION
+SELECT 2, NULL UNION
+SELECT 3, '' UNION
+SELECT 4, '  '
+)
+
+SELECT *,
+TRIM(Category) AS Policy1,
+NULLIF(TRIM(Category),'') AS Policy2,
+COALESCE (NULLIF(TRIM(Category),''), 'unknown') AS Policy3
+FROM orders
+ORDER BY id
