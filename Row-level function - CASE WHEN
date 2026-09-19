@@ -1,0 +1,94 @@
+-- Case Statement (Evaluates a list of conditions and returns a value when the first condition is met)
+
+/* Generate a report showing the total sales for each category.
+High - If sales higher than 50, Medium - If sales between 20 and 50, Low - If sales below 20.
+Sort the result from highest sales to lowest */
+SELECT 
+	category,
+	SUM(sales) AS totalsales
+FROM(
+	SELECT
+		orderid,
+		sales,
+		CASE 
+			WHEN sales > 50 THEN 'High'
+			WHEN sales BETWEEN 20 AND 50 THEN 'Medium'
+			ELSE 'Low'
+		END AS category
+	FROM Orders
+	)
+GROUP BY category
+ORDER  BY totalsales DESC;
+
+-- Retrieve employee details with gender displayes as full text.
+SELECT 
+	employeeid,
+	firstname,
+	lastname,
+	gender,
+	CASE
+		WHEN gender = 'M' THEN 'Male'
+		WHEN gender = 'F' THEN 'Female'
+		ELSE 'Not Available'
+	END AS Genderfulltext
+FROM employees;
+
+-- Retrieve customer details with abbreviated country code 
+
+SELECT
+	DISTINCT(country)
+FROM customers;
+
+-- FULL FORM (We write the column name country again and again in the WHEN statement)
+SELECT 
+	customerid,
+	firstname,
+	lastname,
+	country,
+	CASE
+		WHEN country = 'Germany' THEN 'DE'
+		WHEN country = 'USA' THEN 'US'
+		ELSE 'Not available'
+	END AS countryabbr
+FROM customers;
+
+/* QUICK FORM (We write the column name Country only once along with the CASE statement so we know all 
+WHEN statements are applicable to the same column name Country */
+SELECT 
+	customerid,
+	firstname,
+	lastname,
+	country,
+	CASE country
+		WHEN 'Germany' THEN 'DE'
+		WHEN 'USA' THEN 'US'
+		ELSE 'Not available'
+	END AS countryabbrv
+FROM customers;
+
+-- Find the average scores of customers and treat Nulls as 0, provide additional details such as CID and last name
+SELECT 
+	customerid,
+	lastname,
+	score,
+	CASE
+		WHEN score IS NULL THEN 0
+		ELSE score
+	END AS scoreclean,
+	AVG(score) OVER() AS avgcustomer,
+	AVG(CASE
+		WHEN score IS NULL THEN 0
+		ELSE score
+	END) OVER() AS avgcustomerclean
+FROM customers;
+
+-- Count how many times each customer has made an order with sales greater than 30
+SELECT 
+	customerid,
+	SUM(CASE
+		WHEN 
+		sales > 30 THEN 1
+		ELSE 0
+	END) AS sumsalesflags
+FROM orders
+GROUP BY customerid;
