@@ -92,3 +92,5 @@ SELECT
 	END) AS sumsalesflags
 FROM orders
 GROUP BY customerid;
+
+8:40:59
