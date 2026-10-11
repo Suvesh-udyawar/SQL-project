@@ -89,8 +89,13 @@ SELECT
 		WHEN 
 		sales > 30 THEN 1
 		ELSE 0
-	END) AS sumsalesflags
+	END) AS Totalordershighsales,
+	COUNT (*) AS Totalorders
 FROM orders
 GROUP BY customerid;
 
-8:40:59
+/* CASE STATEMENT SUMMARY -
+Evaluates a list of conditons and returns a value when the first condition is met
+RULES - The data type of the result must me matching. 
+USE CASES - Derive new information - Categorizing data, Mapping values, Handling NULLs and Conditional aggregation*/
+
